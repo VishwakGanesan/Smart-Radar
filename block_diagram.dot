@@ -1,0 +1,20 @@
+digraph blocks {
+  rankdir=LR; bgcolor="white"; compound=true;
+  node [shape=box, style="rounded,filled", fillcolor="#f6f6f6", fontname="Helvetica", fontsize=11, color="#555555"];
+  edge [fontname="Helvetica", fontsize=9, color="#444444"];
+  subgraph cluster_ext { label="5 V side"; fontname="Helvetica"; fontsize=10; color="#c01c28"; style=dashed;
+    sensor [label="HC-SR04\nultrasonic sensor"]; buzzer [label="Buzzer"]; }
+  subgraph cluster_if { label="interface (schematics/)"; fontname="Helvetica"; fontsize=10; color="#999999"; style=dashed;
+    shifter [label="BSS138\nlevel shifter"]; npn [label="2N3904\nlow-side driver"]; pnp [label="2N3906 digit\ndrivers"]; }
+  subgraph cluster_fpga { label="FPGA, 3.3 V (rtl/)"; fontname="Helvetica"; fontsize=10; color="#1a5fb4";
+    sync [label="sync2\n(echo, button)"]; deb [label="debounce\n10 ms"]; tick [label="tick_gen\n1 us"];
+    fsm [label="doorbell_fsm\n5 states", fillcolor="#eef3fb", color="#1a5fb4"];
+    conv [label="echo_to_cm +\nbin2bcd"]; mux [label="sevenseg_mux"]; chime [label="chime\nding-dong"]; }
+  button [label="Doorbell\nbutton"]; disp [label="4-digit\n7-segment"];
+  sensor -> shifter [label="ECHO 5 V"]; shifter -> sensor [label="TRIG 5 V"];
+  shifter -> sync [label="echo"]; fsm -> shifter [label="trig"];
+  button -> sync; sync -> deb [label="btn_s"]; deb -> fsm [label="press"]; sync -> fsm [label="echo_s"];
+  tick -> fsm; tick -> deb;
+  fsm -> conv [label="echo_us"]; conv -> mux; fsm -> mux [label="state"];
+  mux -> pnp -> disp; fsm -> chime [label="chime_en"]; chime -> npn -> buzzer;
+}

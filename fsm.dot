@@ -1,0 +1,17 @@
+digraph fsm {
+  rankdir=LR; bgcolor="white";
+  node [shape=circle, fontname="Helvetica", fontsize=11, width=1.15, fixedsize=true, style=filled, fillcolor="#eef3fb", color="#1a5fb4"];
+  edge [fontname="Helvetica", fontsize=9, color="#444444"];
+  IDLE [shape=doublecircle];
+  ALERT [fillcolor="#fdecea", color="#c01c28"];
+  IDLE -> TRIGGER [label="GAP_US elapsed\n(60 ms)"];
+  TRIGGER -> MEASURE [label="10 us"];
+  MEASURE -> IDLE [label="echo done, < 3 hits\nor timeout (30 ms)\nor < 2 cm glitch"];
+  MEASURE -> ALERT [label="3rd consecutive\nreading < 100 cm"];
+  ALERT -> COOLDOWN [label="ALERT_US (2 s)"];
+  COOLDOWN -> IDLE [label="COOLDOWN_US (5 s)"];
+  IDLE -> ALERT [label="press", style=dashed, color="#c01c28", fontcolor="#c01c28"];
+  TRIGGER -> ALERT [label="press", style=dashed, color="#c01c28", fontcolor="#c01c28"];
+  MEASURE -> ALERT [label="press", style=dashed, color="#c01c28", fontcolor="#c01c28"];
+  COOLDOWN -> ALERT [label="press", style=dashed, color="#c01c28", fontcolor="#c01c28"];
+}

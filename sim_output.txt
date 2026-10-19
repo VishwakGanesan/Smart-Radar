@@ -1,0 +1,22 @@
+Smart Radar Doorbell - directed tests
+--------------------------------------
+[PASS] T01  Reset: IDLE, outputs low, display '----'
+[PASS] T02  TRIG pulse is exactly 10 us (cycle-exact)
+[PASS] T03  Far object (200 cm): distance latched and shown, no alert
+[PASS] T04  Next ping starts GAP_US after the last reading (+/-1 us)
+[PASS] T05  5800 us echo converts to exactly 100 cm; 100 cm is not 'near'
+[PASS] T06  99 cm counts as a near hit but does not alert on its own
+[PASS] T07  Near hits must be consecutive: near, near, far -> no alert
+[PASS] T08  Three consecutive near readings -> ALERT, display '  HI', chime on
+[PASS] T09  ALERT lasts ALERT_US (+/-1 us), then chime stops
+[PASS] T10  COOLDOWN: no pings, no re-alert, lasts exactly COOLDOWN_US
+[PASS] T11  Measuring resumes after COOLDOWN
+[PASS] T12  No echo: times out after exactly 30 ms, display '----'
+[PASS] T13  Echo stuck high (out of range) times out and clears the reading
+[PASS] T14  Echo shorter than 2 cm is rejected as noise
+[PASS] T15  Bouncy button press -> exactly one debounced ALERT, display 'bELL'
+[PASS] T16  Button during MEASURE aborts the reading and rings immediately
+--------------------------------------
+16 / 16 tests passed
+- tb/tb_doorbell.sv:438: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.030 2024-10-27

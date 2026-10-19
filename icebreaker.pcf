@@ -1,0 +1,36 @@
+# Pin map for an iCEBreaker (iCE40UP5K-SG48, 12 MHz).
+# If you built on a different board, change these to match your wiring.
+#
+# PMOD1A -> 7-seg segments, PMOD1B -> digit enables + sensor/button/buzzer,
+# PMOD2  -> alert LED. Everything on the FPGA side is 3.3 V.
+
+set_io -nowarn clk       35
+set_io -nowarn rst_n     10   # on-board user button (BTN_N)
+
+# segments {g,f,e,d,c,b,a}, active-low
+set_io -nowarn seg_n[0]  4
+set_io -nowarn seg_n[1]  2
+set_io -nowarn seg_n[2]  47
+set_io -nowarn seg_n[3]  45
+set_io -nowarn seg_n[4]  3
+set_io -nowarn seg_n[5]  48
+set_io -nowarn seg_n[6]  46
+set_io -nowarn dp_n      44
+
+# digit enables -> 2N3906 bases (active-low)
+set_io -nowarn an_n[0]   43
+set_io -nowarn an_n[1]   38
+set_io -nowarn an_n[2]   34
+set_io -nowarn an_n[3]   31
+
+# HC-SR04 through the BSS138 level shifter
+set_io -nowarn trig      42
+set_io -nowarn echo      36
+
+# doorbell button (external, 10k pull-up to 3.3 V)
+set_io -nowarn btn_n     32
+
+# buzzer driver (2N3904 base resistor)
+set_io -nowarn buzz      28
+
+set_io -nowarn led_alert 27
